@@ -6,7 +6,7 @@ public class Book {
 
     private String author;
     private String summary;
-    private float price;
+    private double price;
     private boolean onWishList;
 
     private boolean hasRead;
@@ -16,7 +16,7 @@ public class Book {
     private String genreName;
 
     public Book (){};
-    public Book(int bookId, String title, String author, String summary, float price, boolean onWishList, boolean hasRead, boolean hasPurchased, String collectionName, String genreName) {
+    public Book(int bookId, String title, String author, String summary, double price, boolean onWishList, boolean hasRead, boolean hasPurchased, String collectionName, String genreName) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
@@ -61,11 +61,11 @@ public class Book {
         this.summary = summary;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

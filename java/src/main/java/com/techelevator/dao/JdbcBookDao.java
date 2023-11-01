@@ -16,7 +16,7 @@ public class JdbcBookDao implements BookDao {
     @Override
     public Book getBookByTitle(String title) {
         Book book = null;
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM books"
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
         + "WHERE title = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
         if (results.next()){
@@ -28,7 +28,7 @@ public class JdbcBookDao implements BookDao {
 
     @Override
     public Book getBookById(int id) {
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM books"
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
                 + "WHERE book_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if (results.next()){
@@ -41,7 +41,7 @@ public class JdbcBookDao implements BookDao {
     @Override
     public List<Book> getBooksByGenre(String genreName) {
        List<Book> books = new ArrayList<>();
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM books"
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
                 + "WHERE genre_name = ?;";
         try {
             SqlRowSet row = jdbcTemplate.queryForRowSet(sql, genreName);
@@ -57,7 +57,7 @@ public class JdbcBookDao implements BookDao {
     @Override
     public List<Book> getBooksByCollection(String collectionName) {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM books"
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
                 + "WHERE collection_name = ?;";
         try {
             SqlRowSet row = jdbcTemplate.queryForRowSet(sql, collectionName);
@@ -72,7 +72,7 @@ public class JdbcBookDao implements BookDao {
     @Override
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM books;";
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book;";
         try {
             SqlRowSet rows = jdbcTemplate.queryForRowSet(sql);
             while (rows.next()) {
