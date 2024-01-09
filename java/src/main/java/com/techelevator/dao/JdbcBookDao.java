@@ -28,16 +28,17 @@ public class JdbcBookDao implements BookDao {
         return books;
     }
 
+    //TODO: currently returns null
     @Override
-    public Book getBookById(int id) {
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
+    public Book getBookById(int bookId) {
+        Book book = null;
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book "
                 + "WHERE book_id = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, bookId);
         if (results.next()){
-            return mapRowToBook(results);
-        } else {
-            return null;
+            book = mapRowToBook(results);
         }
+        return book;
     }
 
     @Override

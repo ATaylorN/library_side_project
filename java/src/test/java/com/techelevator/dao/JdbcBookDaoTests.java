@@ -29,5 +29,12 @@ private JdbcBookDao sut;
     Assert.assertEquals(2, sut.getBookByTitle("Book2").size());
 }
 
+@Test
+    public  void get_books_by_id_works(){
+    Book book = new Book();
+    book.setBookId(3);
+    Assert.assertEquals(book.getBookId(), sut.getBookById(3).getBookId());
+}
+
 
 }
