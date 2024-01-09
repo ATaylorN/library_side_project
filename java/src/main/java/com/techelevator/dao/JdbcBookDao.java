@@ -14,16 +14,18 @@ public class JdbcBookDao implements BookDao {
 
     public JdbcBookDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
     @Override
-    public Book getBookByTitle(String title) {
-        Book book = null;
-        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
-        + "WHERE title = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, title);
-        if (results.next()){
-            return mapRowToBook(results);
-        }else {
-            return null;
+    public List<Book> getBookByTitle(String title) {
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book WHERE title = ?;";
+        try {
+            SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, title);
+            while (rows.next()) {
+                books.add(mapRowToBook(rows));
+            }
+        } catch (RuntimeException e){
+            throw new RuntimeException("Couldn't load books!");
         }
+        return books;
     }
 
     @Override
