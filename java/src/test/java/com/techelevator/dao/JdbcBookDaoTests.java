@@ -41,4 +41,9 @@ private JdbcBookDao sut;
     Assert.assertEquals(1, sut.getBooksByGenre("genre2").size());
 }
 
+@Test
+    public void books_by_collection_works(){
+    Assert.assertEquals(2, sut.getBooksByCollection("collection1").size());
+    Assert.assertEquals(1, sut.getBooksByCollection("collection2").size());
+}
 }
