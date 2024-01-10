@@ -28,7 +28,6 @@ public class JdbcBookDao implements BookDao {
         return books;
     }
 
-    //TODO: currently returns null
     @Override
     public Book getBookById(int bookId) {
         Book book = null;
@@ -45,7 +44,7 @@ public class JdbcBookDao implements BookDao {
     public List<Book> getBooksByGenre(String genreName) {
        List<Book> books = new ArrayList<>();
         String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
-                + "WHERE genre_name = ?;";
+                + " WHERE genre_name = ?;";
         try {
             SqlRowSet row = jdbcTemplate.queryForRowSet(sql, genreName);
             while (row.next()) {
@@ -61,7 +60,7 @@ public class JdbcBookDao implements BookDao {
     public List<Book> getBooksByCollection(String collectionName) {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book"
-                + "WHERE collection_name = ?;";
+                + " WHERE collection_name = ?;";
         try {
             SqlRowSet row = jdbcTemplate.queryForRowSet(sql, collectionName);
             while (row.next()){

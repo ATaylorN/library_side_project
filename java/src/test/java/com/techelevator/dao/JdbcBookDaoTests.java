@@ -35,6 +35,10 @@ private JdbcBookDao sut;
     book.setBookId(3);
     Assert.assertEquals(book.getBookId(), sut.getBookById(3).getBookId());
 }
-
+@Test
+    public void books_by_genre_works(){
+    Assert.assertEquals(2, sut.getBooksByGenre("genre1").size());
+    Assert.assertEquals(1, sut.getBooksByGenre("genre2").size());
+}
 
 }
