@@ -20,8 +20,7 @@ private JdbcBookDao sut;
 
 @Test
     public void list_of_books_returns_books(){
-
-    Assert.assertEquals(3, sut.getAllBooks().size());
+    Assert.assertEquals(4, sut.getAllBooks().size());
 }
 @Test
     public void get_books_by_title_works(){
@@ -52,15 +51,20 @@ private JdbcBookDao sut;
     int  newBookId = newBook.getBookId();
     Assert.assertTrue(newBookId > 0);
     Book retrievedBook = sut.getBookById(newBookId);
-    Assert.assertEquals(newBook.getBookId(), retrievedBook.getBookId());
-    Assert.assertEquals(newBook.getTitle(),retrievedBook.getTitle());
-    Assert.assertEquals(newBook.getAuthor(),retrievedBook.getAuthor());
-    Assert.assertEquals(newBook.getSummary(),retrievedBook.getSummary());
-    Assert.assertEquals(newBook.getPrice(),retrievedBook.getPrice(),0.02);
-    Assert.assertEquals(newBook.isOnWishList(),retrievedBook.isOnWishList());
-    Assert.assertEquals(newBook.isHasRead(),retrievedBook.isHasRead());
-    Assert.assertEquals(newBook.isHasPurchased(),retrievedBook.isHasPurchased());
-    Assert.assertEquals(newBook.getCollectionName(),retrievedBook.getCollectionName());
-    Assert.assertEquals(newBook.getGenreName(),retrievedBook.getGenreName());
+    assertBooksMatch(newBook, retrievedBook);
 }
+
+public void assertBooksMatch(Book expectedBook, Book actualBook){
+    Assert.assertEquals(expectedBook.getBookId(), actualBook.getBookId());
+    Assert.assertEquals(expectedBook.getTitle(),actualBook.getTitle());
+    Assert.assertEquals(expectedBook.getAuthor(),actualBook.getAuthor());
+    Assert.assertEquals(expectedBook.getSummary(),actualBook.getSummary());
+    Assert.assertEquals(expectedBook.getPrice(),actualBook.getPrice(),0.02);
+    Assert.assertEquals(expectedBook.isOnWishList(),actualBook.isOnWishList());
+    Assert.assertEquals(expectedBook.isHasRead(),actualBook.isHasRead());
+    Assert.assertEquals(expectedBook.isHasPurchased(),actualBook.isHasPurchased());
+    Assert.assertEquals(expectedBook.getCollectionName(),actualBook.getCollectionName());
+    Assert.assertEquals(expectedBook.getGenreName(),actualBook.getGenreName());
+}
+
 }

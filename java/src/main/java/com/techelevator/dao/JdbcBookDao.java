@@ -33,9 +33,13 @@ public class JdbcBookDao implements BookDao {
         Book book = null;
         String sql = "SELECT book_id, title, author, summary, price, onWishList, hasRead, hasPurchased, collection_name, genre_name FROM book "
                 + "WHERE book_id = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, bookId);
-        if (results.next()){
-            book = mapRowToBook(results);
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, bookId);
+            if (results.next()) {
+                book = mapRowToBook(results);
+            }
+        }catch (RuntimeException e){
+            throw new RuntimeException("Couldn't load book by ID!");
         }
         return book;
     }
@@ -87,13 +91,16 @@ public class JdbcBookDao implements BookDao {
     }
 
     @Override
-    public Book createBook(Book book){
+    public Book createBook(Book book) {
         Book newBook = null;
         String sql = "INSERT INTO book (title, author, summary, price, onwishlist, hasread, haspurchased, collection_name, genre_name) VALUES (?,?,?,?,?,?,?,?,?) RETURNING book_id;";
-        int newBookId = jdbcTemplate.queryForObject(sql, int.class, book.getTitle(),book.getAuthor(),book.getSummary(),book.getPrice(),book.isOnWishList(),book.isHasRead(),book.isHasPurchased(),book.getCollectionName(),book.getGenreName());
-        newBook = getBookById(newBookId);
-
-        return newBook;
+        try {
+            int newBookId = jdbcTemplate.queryForObject(sql, int.class, book.getTitle(), book.getAuthor(), book.getSummary(), book.getPrice(), book.isOnWishList(), book.isHasRead(), book.isHasPurchased(), book.getCollectionName(), book.getGenreName());
+            newBook = getBookById(newBookId);
+        }catch(RuntimeException e) {
+            throw new RuntimeException("Unable to create book!");
+            }
+            return newBook;
     }
 
     private Book mapRowToBook(SqlRowSet row){
