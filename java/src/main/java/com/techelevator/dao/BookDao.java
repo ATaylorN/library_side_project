@@ -10,4 +10,5 @@ public interface BookDao {
     List<Book> getBooksByGenre(String genreName);
     List <Book> getBooksByCollection(String collectionName);
     List<Book> getAllBooks();
+    Book createBook(Book book);
 }
