@@ -53,6 +53,22 @@ private JdbcBookDao sut;
     Book retrievedBook = sut.getBookById(newBookId);
     assertBooksMatch(newBook, retrievedBook);
 }
+@Test
+public void update_book_works(){
+    Book bookToUpdate = sut.getBookById(1);
+    bookToUpdate.setTitle("Updated Title");
+    bookToUpdate.setAuthor("Updated Author");
+    bookToUpdate.setSummary("Updated Summary");
+    bookToUpdate.setPrice(25.00);
+    bookToUpdate.setOnWishList(false);
+    bookToUpdate.setHasRead(false);
+    bookToUpdate.setHasPurchased(false);
+    bookToUpdate.setCollectionName("Updated Collection");
+    bookToUpdate.setGenreName("Updated Genre");
+    sut.updateBook(bookToUpdate);
+    Book retrievedBook = sut.getBookById(1);
+    assertBooksMatch(bookToUpdate,retrievedBook);
+}
 
 public void assertBooksMatch(Book expectedBook, Book actualBook){
     Assert.assertEquals(expectedBook.getBookId(), actualBook.getBookId());
