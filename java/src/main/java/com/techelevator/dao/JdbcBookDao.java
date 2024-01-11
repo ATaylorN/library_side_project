@@ -121,6 +121,18 @@ public class JdbcBookDao implements BookDao {
         return updatedBook;
     }
 
+    @Override
+    public int deleteBook(int bookId){
+        int numberOfRows = 0;
+        String sql = "DELETE FROM book WHERE book_id = ?;";
+        try{
+            numberOfRows = jdbcTemplate.update(sql, bookId);
+        } catch (RuntimeException e){
+            throw new RuntimeException("Unable to delete book!");
+        }
+        return numberOfRows;
+    }
+
     private Book mapRowToBook(SqlRowSet row){
         Book book = new Book();
         book.setBookId(row.getInt("book_id"));
