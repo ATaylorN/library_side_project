@@ -69,6 +69,12 @@ public void update_book_works(){
     Book retrievedBook = sut.getBookById(1);
     assertBooksMatch(bookToUpdate,retrievedBook);
 }
+@Test
+public void deleted_book_is_no_longer_available(){
+    sut.deleteBook(3);
+    Book retrievedBook = sut.getBookById(3);
+    Assert.assertNull(retrievedBook);
+}
 
 public void assertBooksMatch(Book expectedBook, Book actualBook){
     Assert.assertEquals(expectedBook.getBookId(), actualBook.getBookId());
@@ -82,5 +88,4 @@ public void assertBooksMatch(Book expectedBook, Book actualBook){
     Assert.assertEquals(expectedBook.getCollectionName(),actualBook.getCollectionName());
     Assert.assertEquals(expectedBook.getGenreName(),actualBook.getGenreName());
 }
-
 }
