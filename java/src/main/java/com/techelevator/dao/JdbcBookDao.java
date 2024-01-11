@@ -103,6 +103,24 @@ public class JdbcBookDao implements BookDao {
             return newBook;
     }
 
+    @Override
+    public Book updateBook(Book book){
+        Book updatedBook = null;
+        String sql = "UPDATE book SET title = ?, author = ?, summary = ?, price = ?, onwishList = ?, hasread = ?, haspurchased = ?, collection_name = ?, genre_name = ? " +
+                "WHERE book_id = ?;";
+        try{
+            int numberOfRows = jdbcTemplate.update(sql, book.getTitle(), book.getAuthor(), book.getSummary(), book.getPrice(), book.isOnWishList(), book.isHasRead(), book.isHasPurchased(), book.getCollectionName(), book.getGenreName(), book.getBookId());
+            if(numberOfRows == 0) {
+                throw new RuntimeException("None of the information was updated!");
+            }else {
+                updatedBook = getBookById(book.getBookId());
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Unable to update book!");
+        }
+        return updatedBook;
+    }
+
     private Book mapRowToBook(SqlRowSet row){
         Book book = new Book();
         book.setBookId(row.getInt("book_id"));
