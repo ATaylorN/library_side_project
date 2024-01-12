@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.BookDao;
 import com.techelevator.dao.JdbcBookDao;
 import com.techelevator.model.Book;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,30 @@ public class BookController {
     //getBooksByGenre
     //getBooksByCollection
     //createBook
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="", method = RequestMethod.POST)
+    public int createBook(@RequestBody Book book){
+        int newBookId;
+        try{
+            newBookId = bookDao.createBook(book).getBookId();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Unable to create new book!");
+        }
+        return newBookId;
+    }
     //updateBook
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    public Book updateBook(@PathVariable int bookId, @RequestBody Book bookToUpdate){
+        if(bookId<0){
+            throw new RuntimeException("Book not found!");
+        }
+        bookToUpdate.setBookId(bookId);
+        try{
+            Book book = bookDao.updateBook(bookToUpdate);
+            return book;
+        } catch (RuntimeException e){
+            throw  new RuntimeException("Unable to update book!");
+        }
+    }
     //deleteBook
 }
