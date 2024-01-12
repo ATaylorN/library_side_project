@@ -5,10 +5,7 @@ import com.techelevator.dao.JdbcBookDao;
 import com.techelevator.model.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,27 @@ public class BookController {
     }
 
     //getBookByTitle
+    @RequestMapping(value="/{title}", method = RequestMethod.GET)
+    public Book getBookByTitle(@PathVariable String title){
+        Book book = null;
+        try {
+            book = (Book) bookDao.getBookByTitle(title);
+        } catch (RuntimeException e){
+            throw  new RuntimeException("Books not found!");
+        }
+        return book;
+    }
     //getBookById
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Book getBookById(@PathVariable int bookId){
+        Book book = null;
+        try{
+            book = bookDao.getBookById(bookId);
+        } catch (RuntimeException e){
+            throw new RuntimeException("Book not found! Try a different ID");
+        }
+        return book;
+    }
     //getBooksByGenre
     //getBooksByCollection
     //createBook
