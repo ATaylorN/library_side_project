@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,16 @@ public class BookController {
         return booksByGenre;
     }
     //getBooksByCollection
+    @RequestMapping(value = "/{collection}", method = RequestMethod.GET)
+    public List<Book> getBooksByCollection(@PathVariable String collectionName){
+        List<Book> booksByCollection = new ArrayList<>();
+        try{
+            booksByCollection = bookDao.getBooksByCollection(collectionName);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Couldn't get books by genre!");
+        }
+        return booksByCollection;
+    }
     //createBook
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value="", method = RequestMethod.POST)
@@ -94,4 +105,12 @@ public class BookController {
         }
     }
     //deleteBook
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteBook(@PathVariable int bookId){
+        if (bookDao.getBookById(bookId) == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found!");
+        }
+        bookDao.deleteBook(bookId);
+}
 }
