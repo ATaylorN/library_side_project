@@ -56,6 +56,16 @@ public class BookController {
         return book;
     }
     //getBooksByGenre
+    @RequestMapping(value="/{genre}", method = RequestMethod.GET)
+    public List<Book> getBooksByGenre(@PathVariable String genreName){
+        List<Book> booksByGenre = new ArrayList<>();
+        try{
+            booksByGenre = bookDao.getBooksByGenre(genreName);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Couldn't get books by genre!");
+        }
+        return booksByGenre;
+    }
     //getBooksByCollection
     //createBook
     @ResponseStatus(HttpStatus.CREATED)
